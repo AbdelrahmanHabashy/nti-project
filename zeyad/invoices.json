@@ -1,0 +1,92 @@
+[
+    {
+        "invoice_id": "INV-2026-001",
+        "date": "2026-09-08",
+        "supplier_name": null,
+        "tax_id": null,
+        "product": "ﻭﺭﻕ ﻃﺒﺎﻋﺔ",
+        "subtotal": 800.0,
+        "vat_amount": 112.0,
+        "total": 912.0
+    },
+    {
+        "invoice_id": "INV-2026-007",
+        "date": "2026-09-08",
+        "supplier_name": null,
+        "tax_id": null,
+        "product": "ﺷﺎﺷﺎﺕ ﻋﺮﺽ",
+        "subtotal": 6000.0,
+        "vat_amount": 840.0,
+        "total": 6840.0
+    },
+    {
+        "invoice_id": "INV-2026-008",
+        "date": "2026-09-08",
+        "supplier_name": null,
+        "tax_id": null,
+        "product": "ﺃﺟﻬﺰﺓ ﺣﺎﺳﺐ ﺁﻟﻲ",
+        "subtotal": 15000.0,
+        "vat_amount": 2100.0,
+        "total": 17300.0
+    },
+    {
+        "invoice_id": "INV-2026-006",
+        "date": "2026-09-08",
+        "supplier_name": null,
+        "tax_id": null,
+        "product": "ﻃﺎﺑﻌﺎﺕ ﻣﻜﺘﺒﻴﺔ",
+        "subtotal": 4500.0,
+        "vat_amount": 450.0,
+        "total": 4950.0
+    },
+    {
+        "invoice_id": "INV-2026-001",
+        "date": "2026-09-08",
+        "supplier_name": null,
+        "tax_id": null,
+        "product": "ﺷﺎﺷﺎﺕ ﻋﺮﺽ",
+        "subtotal": 6000.0,
+        "vat_amount": 840.0,
+        "total": 6840.0
+    },
+    {
+        "invoice_id": "INV-2026-002",
+        "date": "2026-09-08",
+        "supplier_name": null,
+        "tax_id": null,
+        "product": "ﺃﺟﻬﺰﺓ ﺣﺎﺳﺐ ﺁﻟﻲ",
+        "subtotal": 15000.0,
+        "vat_amount": 2100.0,
+        "total": 17100.0
+    },
+    {
+        "invoice_id": "INV-2026-003",
+        "date": "2026-09-08",
+        "supplier_name": null,
+        "tax_id": null,
+        "product": "ﺃﺟﻬﺰﺓ ﺣﺎﺳﺐ ﺁﻟﻲ",
+        "subtotal": 15000.0,
+        "vat_amount": 2100.0,
+        "total": 17100.0
+    },
+    {
+        "invoice_id": "INV-2026-004",
+        "date": "2026-09-08",
+        "supplier_name": null,
+        "tax_id": null,
+        "product": "ﻃﺎﺑﻌﺎﺕ ﻣﻜﺘﺒﻴﺔ",
+        "subtotal": 4500.0,
+        "vat_amount": 630.0,
+        "total": 5130.0
+    },
+    {
+        "invoice_id": "INV-2026-005",
+        "date": "2026-09-08",
+        "supplier_name": null,
+        "tax_id": null,
+        "product": "ﻃﺎﺑﻌﺎﺕ ﻣﻜﺘﺒﻴﺔ",
+        "subtotal": 4500.0,
+        "vat_amount": 630.0,
+        "total": 5130.0
+    }
+]
