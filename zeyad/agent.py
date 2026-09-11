@@ -1,20 +1,22 @@
-from openai import OpenAI
+import os
 import json
 import pandas as pd
-import os
+from openai import OpenAI
 
 
 # =========================
 # Load invoices
 # =========================
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+INVOICES_PATH = os.path.join(BASE_DIR, "invoices.json")
+
 with open(
-    r"C:\Users\zeyad-mohamed\Desktop\Zeyad-Mohamed\Project\invoices.json",
+    INVOICES_PATH,
     "r",
     encoding="utf-8"
 ) as f:
     invoices = json.load(f)
-
 
 # =========================
 # Prepare DataFrame
@@ -32,7 +34,7 @@ df["month"] = df["date"].dt.month_name()
 # =========================
 
 client = OpenAI(
-    api_key="API-HERE",
+    api_key=os.environ.get("OPENROUTER_API_KEY"),
     base_url="https://openrouter.ai/api/v1"
 )
 
@@ -191,3 +193,16 @@ User request:
         )
 
     return spec
+
+# =================================================
+# TEST
+# =================================================
+
+if __name__ == "__main__":
+
+    query = "اعمل رسم بياني لإجمالي المبيعات لكل منتج"
+
+    result = graph_agent(query, df)
+
+    print("\nFINAL RESULT:")
+    print(result)
