@@ -93,9 +93,11 @@ class CalculateAgent:
                 "function": {
                     "name": "calculate_total",
                     "description": (
-                        "Calculate the invoice total by adding an explicitly provided "
-                        "net amount and VAT amount. Use only when both values are "
-                        "already known."
+                        "Calculate the invoice total by adding a net amount and an already calculated "
+                        "VAT amount. Use ONLY when the exact VAT amount is already provided or known. "
+                        "Do NOT use this tool when the user provides a VAT percentage/rate instead of "
+                        "a VAT amount. If the user provides a net amount and a VAT rate and asks for "
+                        "the total, use calculate_invoice instead."
                     ),
                     "parameters": {
                         "type": "object",
@@ -152,9 +154,11 @@ class CalculateAgent:
                 "function": {
                     "name": "calculate_invoice",
                     "description": (
-                        "Calculate a complete invoice: subtotal, discount, net amount, "
-                        "VAT, and total. Use when the user explicitly asks to calculate "
-                        "the complete invoice."
+                        "Calculate an invoice total when the user provides an amount and asks to "
+                        "calculate VAT and/or the final total. Use this tool when a VAT percentage "
+                        "or rate is provided and the VAT amount must be calculated. For example, "
+                        "if the user says '8000 before VAT, VAT 14%, calculate the total', use "
+                        "this tool. Python performs the VAT and total calculations."
                     ),
                     "parameters": {
                         "type": "object",

@@ -2,6 +2,7 @@ import ollama
 
 from typing import Literal
 from pydantic import BaseModel, Field, ValidationError
+# from calculate_agent import CalculateAgent
 
 
 # ============================================================
@@ -18,9 +19,9 @@ AgentIntent = Literal[
 class RouteDecision(BaseModel):
 
     reasoning: str = Field(
+        default="",
         description="Short reasoning explaining why this agent was selected."
     )
-
     intent: AgentIntent = Field(
         description="The designated agent destination."
     )
@@ -47,17 +48,51 @@ the user's request.
 Available agents:
 
 1. 'rag_agent'
-Use this when the user asks for:
-- Tax laws
-- VAT regulations
-- E-invoicing rules
+
+Use this when the user asks for information that should
+be retrieved from the tax/legal knowledge base, including:
+
+- Egyptian tax laws
+- Egyptian VAT laws and regulations
+- VAT rates defined by law
+- E-invoicing rules and requirements
 - Legal requirements
 - Tax compliance rules
-- Information that must be retrieved from the knowledge base
+- Tax regulations
 - Explanations based on tax documents
+- Questions asking what the law says
+- Questions asking about legally defined tax rates
+- Questions where the required information must be retrieved
+  from the knowledge base
+
+Also use rag_agent when the user asks for a calculation
+but the numerical information required to perform the
+calculation is missing and the question depends on a
+tax law or regulation.
+
+Examples:
+
+"ما هي نسبة ضريبة القيمة المضافة في مصر؟"
+→ rag_agent
+
+"ما هي نسبة VAT حسب القانون المصري؟"
+→ rag_agent
+
+"اشرح قانون ضريبة القيمة المضافة المصري"
+→ rag_agent
+
+"احسب الضريبة حسب قانون ضريبة القيمة المضافة المصري"
+→ rag_agent
+
 
 2. 'calculation_agent'
-Use this when the user asks for:
+
+Use this when the user asks for an actual numerical
+calculation AND provides the numerical values needed
+for that calculation.
+
+Use this for:
+
 - VAT calculations
 - Invoice totals
 - Discounts
@@ -66,8 +101,25 @@ Use this when the user asks for:
 - Financial calculations
 - Arithmetic related to invoices
 
+Examples:
+
+"احسب ضريبة القيمة المضافة على 10000 جنيه بنسبة 14%"
+→ calculation_agent
+
+"كم قيمة الضريبة على مبلغ 20000 جنيه بنسبة 14%؟"
+→ calculation_agent
+
+"احسب صافي المبلغ بعد خصم 1000 جنيه من 15000 جنيه"
+→ calculation_agent
+
+"احسب إجمالي فاتورة قيمتها 10000 جنيه مع ضريبة 14%"
+→ calculation_agent
+
+
 3. 'graphical_agent'
+
 Use this when the user asks for:
+
 - A chart
 - A graph
 - A plot
@@ -75,15 +127,41 @@ Use this when the user asks for:
 - Sales or revenue trends
 - VAT trends
 - Invoice statistics that require visualization
+- Any data visualization
 
-Important rules:
 
-- Do NOT perform calculations yourself.
-- Do NOT answer the user's question.
-- Do NOT calculate VAT.
-- Do NOT extract values for another agent.
-- ONLY decide which agent should handle the query.
-- Return exactly one intent.
+IMPORTANT ROUTING RULES:
+
+1. Do NOT choose calculation_agent only because the
+   query contains words such as "calculate", "احسب",
+   "كام", or "قيمة".
+
+2. Choose calculation_agent ONLY when the user provides
+   the numerical inputs required for an actual calculation.
+
+3. If the user asks to calculate something but the required
+   numerical input is missing, do NOT invent or assume a value.
+
+4. If a query asks about Egyptian tax law, VAT regulations,
+   legal VAT rates, or information that must come from the
+   knowledge base, choose rag_agent.
+
+5. If a query contains both a tax-law question and a numerical
+   calculation, choose rag_agent when the calculation depends
+   on obtaining legal or regulatory information first.
+
+6. Do NOT infer a VAT rate from the user's wording unless
+   the VAT rate is explicitly provided.
+
+7. Do NOT perform calculations yourself.
+
+8. Do NOT answer the user's question.
+
+9. Do NOT extract values for another agent.
+
+10. ONLY decide which agent should handle the query.
+
+11. Return exactly one intent.
 
 The intent MUST be exactly one of:
 
@@ -161,6 +239,8 @@ def route_query(user_query: str) -> dict:
 # These functions are temporary placeholders.
 # They will be replaced with the actual agents.
 
+calculate_agent_instance = CalculateAgent(model="qwen2.5:7b")
+
 def rag_agent(query: str, image_path: str = None) -> dict:
 
     return {
@@ -168,9 +248,9 @@ def rag_agent(query: str, image_path: str = None) -> dict:
     }
 
 
-def calculation_agent(prompt: str) -> str:
+def calculation_agent(prompt: str):
 
-    return f"Calculation agent received: {prompt}"
+    return calculate_agent_instance.run(prompt)
 
 
 def graphical_agent(prompt: str) -> str:
