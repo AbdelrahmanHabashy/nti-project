@@ -30,6 +30,9 @@ import os
 import warnings
 from typing import List
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from typing_extensions import TypedDict
 from pydantic import BaseModel, Field
 
