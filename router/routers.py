@@ -2,7 +2,10 @@ import ollama
 
 from typing import Literal
 from pydantic import BaseModel, Field, ValidationError
-# from calculate_agent import CalculateAgent
+
+from Abdo.calculate_agent import CalculateAgent
+from marwaAHassan.ntiproject import get_legal_explanation
+from zeyad.agent import graph_agent, df
 
 
 # ============================================================
@@ -236,16 +239,12 @@ def route_query(user_query: str) -> dict:
 # AGENTS
 # ============================================================
 
-# These functions are temporary placeholders.
-# They will be replaced with the actual agents.
-
 calculate_agent_instance = CalculateAgent(model="qwen2.5:7b")
 
-def rag_agent(query: str, image_path: str = None) -> dict:
 
-    return {
-        "text": f"RAG agent received: {query}"
-    }
+def rag_agent(query: str, image_path: str = None):
+
+    return get_legal_explanation(query)
 
 
 def calculation_agent(prompt: str):
@@ -253,9 +252,12 @@ def calculation_agent(prompt: str):
     return calculate_agent_instance.run(prompt)
 
 
-def graphical_agent(prompt: str) -> str:
+def graphical_agent(prompt: str):
 
-    return f"Graphical agent received: {prompt}"
+    return graph_agent(
+        user_query=prompt,
+        df=df
+    )
 
 
 # ============================================================

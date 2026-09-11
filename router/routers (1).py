@@ -5,6 +5,10 @@ from dotenv import load_dotenv
 from groq import Groq
 from pydantic import BaseModel, Field, ValidationError
 
+from Abdo.calculate_agent import CalculateAgent
+from marwaAHassan.ntiproject import get_legal_explanation
+from zeyad.agent import graph_agent, df
+
 # تحميل ملف .env من نفس مسار الملف
 current_dir = Path(__file__).resolve().parent
 load_dotenv(dotenv_path=current_dir / ".env")
@@ -104,22 +108,28 @@ def route_query(user_query: str) -> dict:
 # from agents.calc import calculation_agent
 # from agents.graph import graphical_agent
 
-def rag_agent(query: str, image_path: str = None) -> dict:
-    
-    return {
-        "text": "تم استرجاع البيانات بنجاح",
-        "pill_id": "ID-8842",
-        "base_price": 50.0,
-        "vat_percentage": 14.0  # نسبة الضريبة
-    }
+calculate_agent_instance = CalculateAgent(
+    model="qwen2.5:7b"
+)
 
-def calculation_agent(prompt: str) -> str:
-    
-    return f"نتيجة الحساب للطلب: {prompt}"
 
-def graphical_agent(prompt: str) -> str:
-    
-    return f"تم توليد الرسم البياني لـ: {prompt}"
+def rag_agent(query: str, image_path: str = None):
+
+    return get_legal_explanation(query)
+
+
+def calculation_agent(prompt: str):
+
+    return calculate_agent_instance.run(prompt)
+
+
+def graphical_agent(prompt: str):
+
+    return graph_agent(
+        user_query=prompt,
+        df=df
+    )
+
 def orchestrator(user_query: str, image_path: str = None):
     
     routing_result = route_query(user_query)
