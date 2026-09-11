@@ -1,3 +1,4 @@
+python-dotenv
 absl-py==1.4.0
 accelerate==1.14.0
 access==1.1.10.post3
